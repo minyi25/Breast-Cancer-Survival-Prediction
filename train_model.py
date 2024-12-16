@@ -24,7 +24,7 @@ print("Duplicate Rows:\n", duplicate_rows)
 print(f"Number of duplicate rows: {num_duplicates}")
 
 # Splitting the Data
-X = df.drop(columns=['status', 'pid'])  # Drop target and identifier columns
+X = df.drop(columns=['status', 'pid', 'Unnamed: 0'])  # Drop target and identifier columns
 y = df['status']  # Target variable
 
 # Train-Test Split

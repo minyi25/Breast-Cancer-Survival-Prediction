@@ -32,7 +32,7 @@ def predict():
 
         # Recreate the features with preprocessing
         aggressive = 1 if (size > median_size and grade > median_grade) else 0
-        features = np.array([[age, meno, size, grade, nodes, pgr, er, hormon, rfstime]])
+        features = np.array([[age, meno, size, grade, nodes, pgr, er, hormon, rfstime, aggressive]])
 
         # Predict using the loaded model
         prediction = model.predict(features)[0]
