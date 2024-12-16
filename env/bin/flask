@@ -1,4 +1,4 @@
-#!/Users/minyiyeo/breast-cancer-survival-prediction/env/bin/python3
+#!/Users/minyiyeo/breast-cancer-survival-prediction/env/bin/python3.9
 # -*- coding: utf-8 -*-
 import re
 import sys
