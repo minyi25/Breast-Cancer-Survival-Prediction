@@ -11,11 +11,14 @@ model = joblib.load(model_path)
 @app.route('/')
 def home():
     return render_template('index.html')
-
+    
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Extract input data from the form
+        # Debugging: Print incoming form data
+        print("Form Data Received:", request.form)
+
+        # Extract input data
         age = float(request.form['age'])
         meno = int(request.form['meno'])
         size = float(request.form['size'])
@@ -23,18 +26,19 @@ def predict():
         nodes = int(request.form['nodes'])
         pgr = float(request.form['pgr'])
         er = float(request.form['er'])
-        hormon = int(request.form['hormon'])
+        hormon = int(request.form.get('hormon', 0))
         rfstime = float(request.form['rfstime'])
 
-        # Create a feature array for prediction
+        # Create feature array
         features = np.array([[age, meno, size, grade, nodes, pgr, er, hormon, rfstime]])
 
-        # Predict using the loaded model
+        # Make prediction
         prediction = model.predict(features)[0]
 
-        # Map prediction to readable text
+        # Map prediction to human-readable result
         result = "Alive without recurrence" if prediction == 0 else "Recurrence or death"
-
         return render_template('index.html', prediction=result)
+
     except Exception as e:
+        print("Error:", e)
         return str(e), 400
