@@ -67,6 +67,14 @@ from sklearn.metrics import accuracy_score, classification_report
 
 print("Accuracy Score:", accuracy_score(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
+# Save medians for prediction
+median_size = X_train['size'].median()
+median_grade = X_train['grade'].median()
+
+# Save to a file
+import joblib
+joblib.dump({'median_size': median_size, 'median_grade': median_grade}, 'model/medians.pkl')
+print("Medians saved successfully!")
 
 # Save the Model
 import joblib
