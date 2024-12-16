@@ -1,13 +1,12 @@
-from flask import request, jsonify, render_template
 import joblib
 import numpy as np
+from flask import Flask, request, render_template, jsonify
 
-from . import create_app
+app = Flask(__name__)
 
-app = create_app()
-
-# Load pre-trained model
-model = joblib.load('model/breast_cancer_model.pkl')
+# Load the pre-trained model
+model_path = 'model/breast_cancer_model.pkl'
+model = joblib.load(model_path)
 
 @app.route('/')
 def home():
@@ -16,14 +15,26 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Extract input data
-        data = request.json
-        features = np.array([[
-            data['age'], data['meno'], data['size'], data['grade'],
-            data['nodes'], data['pgr'], data['er'], data['hormon'], data['rfstime']
-        ]])
-        prediction = model.predict(features)[0]
-        return jsonify({'status': prediction})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        # Extract input data from the form
+        age = float(request.form['age'])
+        meno = int(request.form['meno'])
+        size = float(request.form['size'])
+        grade = int(request.form['grade'])
+        nodes = int(request.form['nodes'])
+        pgr = float(request.form['pgr'])
+        er = float(request.form['er'])
+        hormon = int(request.form['hormon'])
+        rfstime = float(request.form['rfstime'])
 
+        # Create a feature array for prediction
+        features = np.array([[age, meno, size, grade, nodes, pgr, er, hormon, rfstime]])
+
+        # Predict using the loaded model
+        prediction = model.predict(features)[0]
+
+        # Map prediction to readable text
+        result = "Alive without recurrence" if prediction == 0 else "Recurrence or death"
+
+        return render_template('index.html', prediction=result)
+    except Exception as e:
+        return str(e), 400
