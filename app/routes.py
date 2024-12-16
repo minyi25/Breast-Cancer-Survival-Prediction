@@ -15,6 +15,10 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
+        # Load the medians
+        medians = joblib.load('model/medians.pkl')
+        median_size = medians['median_size']
+        median_grade = medians['median_grade']
         # Extract input data
         age = float(request.form['age'])
         meno = int(request.form['meno'])
@@ -27,11 +31,8 @@ def predict():
         rfstime = float(request.form['rfstime'])
 
         # Recreate the features with preprocessing
+        aggressive = 1 if (size > median_size and grade > median_grade) else 0
         features = np.array([[age, meno, size, grade, nodes, pgr, er, hormon, rfstime]])
-
-        # Create the "aggressive" feature (if used in training)
-        aggressive = np.where((size > X_train['size'].median()) & (grade > X_train['grade'].median()), 1, 0)
-        features = np.append(features, aggressive).reshape(1, -1)
 
         # Predict using the loaded model
         prediction = model.predict(features)[0]
