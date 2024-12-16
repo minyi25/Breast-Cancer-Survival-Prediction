@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Breast Cancer Prediction</title>
+</head>
+<body>
+    <h1>Breast Cancer Survival Prediction</h1>
+    <form id="prediction-form">
+        <!-- Form fields for age, meno, etc. -->
+        <input type="submit" value="Predict">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("prediction-form").onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            const data = {};
+            formData.forEach((value, key) => { data[key] = parseFloat(value); });
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("result").textContent = result.status === 0 ? "Alive without recurrence" : "Recurrence or death";
+        }
+    </script>
+</body>
+</html>
+
