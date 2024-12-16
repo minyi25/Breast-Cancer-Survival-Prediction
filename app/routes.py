@@ -23,7 +23,7 @@ def predict():
         nodes = int(request.form['nodes'])
         pgr = float(request.form['pgr'])
         er = float(request.form['er'])
-        hormon = int(request.form['hormon'])
+        hormon = int(request.form.get('hormon', 0))
         rfstime = float(request.form['rfstime'])
 
         # Recreate the features with preprocessing
