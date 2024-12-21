@@ -38,9 +38,9 @@ def predict():
         prediction = model.predict(features)[0]
 
         # Map prediction to readable text
-        result = "Alive without recurrence" if prediction == 0 else "Recurrence or death"
+        result = "There is a 95% likelihood of surviving without cancer recurrence." if prediction == 0 else "There is a 95% likelihood of cancer recurrence or mortality."
 
-        return render_template('index.html', prediction=result)
+        return render_template('index.html', prediction=result, patient_name=request.form['name'], date=request.form['date'])
     except KeyError as e:
         return f"Missing or incorrect form field: {str(e)}", 400
     except Exception as e:
