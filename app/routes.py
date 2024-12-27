@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, jsonify
 app = Flask(__name__)
 
 # Load the pre-trained model
-model_path = 'model/new_breast_cancer_model.pkl'
+model_path = 'model/breast_cancer_model.pkl'
 model = joblib.load(model_path)
 
 @app.route('/')
