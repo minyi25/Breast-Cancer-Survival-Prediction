@@ -38,7 +38,7 @@ def predict():
         prediction = model.predict(features)[0]
 
         # Map prediction to readable text
-        result = "There is a 95% likelihood of surviving without cancer recurrence." if prediction == 0 else "There is a 95% likelihood of cancer recurrence or mortality."
+        result = "There is a 90% likelihood of surviving without cancer recurrence." if prediction == 0 else "There is a 90% likelihood of cancer recurrence or mortality."
 
         return render_template('index.html', prediction=result, patient_name=request.form['name'], date=request.form['date'])
     except KeyError as e:
